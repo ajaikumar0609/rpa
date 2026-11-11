@@ -1,0 +1,82 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>System.Net.Http</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Runtime</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="End-to-End Process Automation" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <ui:InvokeCode Code="Dim projectRoot As String = System.Environment.CurrentDirectory
+Dim dataDir As String = System.IO.Path.Combine(projectRoot, &quot;Data&quot;)
+If Not System.IO.Directory.Exists(dataDir) Then
+    projectRoot = System.AppDomain.CurrentDomain.BaseDirectory
+    dataDir = System.IO.Path.Combine(projectRoot, &quot;Data&quot;)
+End If
+If Not System.IO.Directory.Exists(dataDir) Then
+    Throw New System.IO.DirectoryNotFoundException(&quot;Open this project in UiPath Studio and run it from its project folder so the Data folder can be found.&quot;)
+End If
+Dim outputDir As String = System.IO.Path.Combine(projectRoot, &quot;Output&quot;)
+System.IO.Directory.CreateDirectory(outputDir)
+Dim inputPath As String = System.IO.Path.Combine(dataDir, &quot;requests.csv&quot;)
+Dim lines As String() = System.IO.File.ReadAllLines(inputPath)
+Dim processed As New System.Collections.Generic.List(Of String)
+Dim rejected As New System.Collections.Generic.List(Of String)
+processed.Add(&quot;RequestID,Customer,Amount,Status,Total&quot;)
+rejected.Add(&quot;RequestID,Customer,Amount,Reason&quot;)
+Dim processedCount As Integer = 0
+Dim rejectedCount As Integer = 0
+Dim totalAmount As Decimal = 0D
+For i As Integer = 1 To lines.Length - 1
+    Try
+        If String.IsNullOrWhiteSpace(lines(i)) Then Continue For
+        Dim p As String() = lines(i).Split(&quot;,&quot;c)
+        If p.Length &lt; 3 Then
+            rejected.Add(lines(i) &amp; &quot;,Missing fields&quot;)
+            rejectedCount += 1
+            Continue For
+        End If
+        Dim requestId As String = p(0).Trim()
+        Dim customer As String = p(1).Trim()
+        Dim amount As Decimal = 0D
+        If requestId = &quot;&quot; OrElse customer = &quot;&quot; OrElse Not Decimal.TryParse(p(2).Trim(), amount) OrElse amount &lt;= 0D Then
+            rejected.Add(String.Join(&quot;,&quot;, p(0), p(1), p(2), &quot;Invalid or missing required value&quot;))
+            rejectedCount += 1
+            Continue For
+        End If
+        Dim fee As Decimal = Math.Round(amount * 0.05D, 2)
+        Dim finalTotal As Decimal = amount + fee
+        processed.Add(String.Join(&quot;,&quot;, requestId, customer, amount.ToString(&quot;0.00&quot;), &quot;Processed&quot;, finalTotal.ToString(&quot;0.00&quot;)))
+        processedCount += 1
+        totalAmount += finalTotal
+    Catch ex As System.Exception
+        rejected.Add(lines(i) &amp; &quot;,Processing error: &quot; &amp; ex.Message.Replace(&quot;,&quot;, &quot;;&quot;))
+        rejectedCount += 1
+    End Try
+Next
+System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, &quot;processed_requests.csv&quot;), String.Join(System.Environment.NewLine, processed), New System.Text.UTF8Encoding(True))
+System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, &quot;rejected_requests.csv&quot;), String.Join(System.Environment.NewLine, rejected), New System.Text.UTF8Encoding(True))
+Dim summary As String = &quot;END-TO-END AUTOMATION SUMMARY&quot; &amp; vbCrLf &amp; &quot;Records read: &quot; &amp; (processedCount + rejectedCount).ToString() &amp; vbCrLf &amp; &quot;Successfully processed: &quot; &amp; processedCount.ToString() &amp; vbCrLf &amp; &quot;Rejected: &quot; &amp; rejectedCount.ToString() &amp; vbCrLf &amp; &quot;Total including 5% fee: &quot; &amp; totalAmount.ToString(&quot;0.00&quot;)
+System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, &quot;summary.txt&quot;), summary, New System.Text.UTF8Encoding(True))" Language="VBNet" DisplayName="Run local demo" sap2010:WorkflowViewState.IdRef="InvokeCode_1" />
+    <ui:MessageBox Caption="RPA Lab Demo" DisplayName="Show completion message" Text="[&quot;End-to-end run completed. Check Output\processed_requests.csv, rejected_requests.csv and summary.txt.&quot;]" sap2010:WorkflowViewState.IdRef="MessageBox_1" />
+  </Sequence>
+</Activity>

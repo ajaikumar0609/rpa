@@ -1,0 +1,5 @@
+{
+  "purpose": "Template only - use the instructor-approved AI provider/connection",
+  "prompt": "Classify the sentiment and briefly explain it: I am very happy with UiPath.",
+  "credentialStorage": "Use an approved secure asset or connection. Do not store credentials in this file."
+}

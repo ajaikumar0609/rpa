@@ -1,0 +1,43 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>System.Net.Http</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Runtime</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Student Welcome Automation" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="studentName" />
+      <Variable x:TypeArguments="x:String" Name="courseName" />
+    </Sequence.Variables>
+    <Assign DisplayName="Set student name" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To><OutArgument x:TypeArguments="x:String">[studentName]</OutArgument></Assign.To>
+      <Assign.Value><InArgument x:TypeArguments="x:String">["Student"]</InArgument></Assign.Value>
+    </Assign>
+    <Assign DisplayName="Set course name" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To><OutArgument x:TypeArguments="x:String">[courseName]</OutArgument></Assign.To>
+      <Assign.Value><InArgument x:TypeArguments="x:String">["Robotic Process Automation Lab"]</InArgument></Assign.Value>
+    </Assign>
+    <ui:MessageBox Caption="Welcome Message" DisplayName="Display welcome message" Text="[&quot;Welcome &quot; + studentName + &quot; to the &quot; + courseName + &quot;.&quot;]" sap2010:WorkflowViewState.IdRef="MessageBox_1" />
+  </Sequence>
+</Activity>

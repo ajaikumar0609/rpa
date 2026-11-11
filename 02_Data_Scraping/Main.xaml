@@ -1,0 +1,61 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>System.Net.Http</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Runtime</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Web Data Extraction" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <ui:InvokeCode Code="Dim projectRoot As String = System.Environment.CurrentDirectory
+Dim dataDir As String = System.IO.Path.Combine(projectRoot, &quot;Data&quot;)
+If Not System.IO.Directory.Exists(dataDir) Then
+    projectRoot = System.AppDomain.CurrentDomain.BaseDirectory
+    dataDir = System.IO.Path.Combine(projectRoot, &quot;Data&quot;)
+End If
+If Not System.IO.Directory.Exists(dataDir) Then
+    Throw New System.IO.DirectoryNotFoundException(&quot;Open this project in UiPath Studio and run it from its project folder so the Data folder can be found.&quot;)
+End If
+Dim outputDir As String = System.IO.Path.Combine(projectRoot, &quot;Output&quot;)
+System.IO.Directory.CreateDirectory(outputDir)
+Dim htmlPath As String = System.IO.Path.Combine(dataDir, &quot;sample_table.html&quot;)
+Dim html As String = System.IO.File.ReadAllText(htmlPath)
+Dim rowMatches As System.Text.RegularExpressions.MatchCollection = System.Text.RegularExpressions.Regex.Matches(html, &quot;(?is)&lt;tr\b[^&gt;]*&gt;(.*?)&lt;/tr&gt;&quot;)
+Dim outputRows As New System.Collections.Generic.List(Of String)
+For Each rowMatch As System.Text.RegularExpressions.Match In rowMatches
+    Dim cellMatches As System.Text.RegularExpressions.MatchCollection = System.Text.RegularExpressions.Regex.Matches(rowMatch.Groups(1).Value, &quot;(?is)&lt;t[dh]\b[^&gt;]*&gt;(.*?)&lt;/t[dh]&gt;&quot;)
+    If cellMatches.Count &gt; 0 Then
+        Dim cells As New System.Collections.Generic.List(Of String)
+        For Each cellMatch As System.Text.RegularExpressions.Match In cellMatches
+            Dim plain As String = System.Text.RegularExpressions.Regex.Replace(cellMatch.Groups(1).Value, &quot;(?is)&lt;[^&gt;]+&gt;&quot;, &quot;&quot;)
+            plain = System.Net.WebUtility.HtmlDecode(plain).Trim()
+            cells.Add(ChrW(34) &amp; plain.Replace(ChrW(34), ChrW(34) &amp; ChrW(34)) &amp; ChrW(34))
+        Next
+        outputRows.Add(String.Join(&quot;,&quot;, cells))
+    End If
+Next
+If outputRows.Count &lt; 2 Then Throw New System.Exception(&quot;No table rows were found in Data/sample_table.html&quot;)
+Dim outPath As String = System.IO.Path.Combine(outputDir, &quot;scraped_table.csv&quot;)
+System.IO.File.WriteAllText(outPath, String.Join(System.Environment.NewLine, outputRows), New System.Text.UTF8Encoding(True))" Language="VBNet" DisplayName="Run local demo" sap2010:WorkflowViewState.IdRef="InvokeCode_1" />
+    <ui:MessageBox Caption="RPA Lab Demo" DisplayName="Show completion message" Text="[&quot;Local HTML table extracted to Output\scraped_table.csv. For live website scraping, use the activity map in README.&quot;]" sap2010:WorkflowViewState.IdRef="MessageBox_1" />
+  </Sequence>
+</Activity>

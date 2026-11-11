@@ -1,0 +1,59 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>System.Net.Http</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Runtime</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Excel and PDF Processing" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <ui:InvokeCode Code="Dim projectRoot As String = System.Environment.CurrentDirectory
+Dim dataDir As String = System.IO.Path.Combine(projectRoot, &quot;Data&quot;)
+If Not System.IO.Directory.Exists(dataDir) Then
+    projectRoot = System.AppDomain.CurrentDomain.BaseDirectory
+    dataDir = System.IO.Path.Combine(projectRoot, &quot;Data&quot;)
+End If
+If Not System.IO.Directory.Exists(dataDir) Then
+    Throw New System.IO.DirectoryNotFoundException(&quot;Open this project in UiPath Studio and run it from its project folder so the Data folder can be found.&quot;)
+End If
+Dim outputDir As String = System.IO.Path.Combine(projectRoot, &quot;Output&quot;)
+System.IO.Directory.CreateDirectory(outputDir)
+Dim csvInput As String = System.IO.Path.Combine(dataDir, &quot;students.csv&quot;)
+Dim csvLines As String() = System.IO.File.ReadAllLines(csvInput)
+Dim csvOut As New System.Collections.Generic.List(Of String)
+csvOut.Add(&quot;RollNo,StudentName,Department,Marks,Status&quot;)
+For i As Integer = 1 To csvLines.Length - 1
+    If String.IsNullOrWhiteSpace(csvLines(i)) Then Continue For
+    Dim parts As String() = csvLines(i).Split(&quot;,&quot;c)
+    If parts.Length &lt; 4 Then Continue For
+    Dim mark As Integer = 0
+    Integer.TryParse(parts(3).Trim(), mark)
+    Dim status As String = If(mark &gt;= 50, &quot;Pass&quot;, &quot;Fail&quot;)
+    csvOut.Add(String.Join(&quot;,&quot;, parts(0).Trim(), parts(1).Trim(), parts(2).Trim(), mark.ToString(), status))
+Next
+Dim csvOutPath As String = System.IO.Path.Combine(outputDir, &quot;processed_students.csv&quot;)
+System.IO.File.WriteAllText(csvOutPath, String.Join(System.Environment.NewLine, csvOut), New System.Text.UTF8Encoding(True))
+Dim pdfFixture As String = System.IO.File.ReadAllText(System.IO.Path.Combine(dataDir, &quot;sample_pdf_text.txt&quot;))
+System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, &quot;pdf_text_fixture_output.txt&quot;), pdfFixture, New System.Text.UTF8Encoding(True))" Language="VBNet" DisplayName="Run local demo" sap2010:WorkflowViewState.IdRef="InvokeCode_1" />
+    <ui:MessageBox Caption="RPA Lab Demo" DisplayName="Show completion message" Text="[&quot;Excel-style sample rows processed to Output\processed_students.csv; PDF sample text fixture copied to Output\pdf_text_fixture_output.txt. Use Read PDF Text for actual PDF extraction.&quot;]" sap2010:WorkflowViewState.IdRef="MessageBox_1" />
+  </Sequence>
+</Activity>

@@ -1,0 +1,7 @@
+Sample Student Information
+Name: Kiran Kumar
+Roll Number: DEMO-001
+Department: Computer Science
+Course: Robotic Process Automation Lab
+Experiment: Excel and PDF Automation
+This is a text-based PDF for UiPath Read PDF Text testing.

@@ -1,0 +1,44 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>System.Net.Http</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Runtime</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Orchestrator Exploration" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <ui:InvokeCode Code="Dim projectRoot As String = System.Environment.CurrentDirectory
+Dim dataDir As String = System.IO.Path.Combine(projectRoot, &quot;Data&quot;)
+If Not System.IO.Directory.Exists(dataDir) Then
+    projectRoot = System.AppDomain.CurrentDomain.BaseDirectory
+    dataDir = System.IO.Path.Combine(projectRoot, &quot;Data&quot;)
+End If
+If Not System.IO.Directory.Exists(dataDir) Then
+    Throw New System.IO.DirectoryNotFoundException(&quot;Open this project in UiPath Studio and run it from its project folder so the Data folder can be found.&quot;)
+End If
+Dim outputDir As String = System.IO.Path.Combine(projectRoot, &quot;Output&quot;)
+System.IO.Directory.CreateDirectory(outputDir)
+Dim checklist As String = &quot;UIPATH ORCHESTRATOR LAB CHECKLIST&quot; &amp; vbCrLf &amp; vbCrLf &amp; &quot;1. Sign in to the lab Automation Cloud tenant.&quot; &amp; vbCrLf &amp; &quot;2. Open the permitted folder and inspect Processes, Jobs, Queues, Assets and Monitoring.&quot; &amp; vbCrLf &amp; &quot;3. Publish a simple process from Studio to the approved feed.&quot; &amp; vbCrLf &amp; &quot;4. Create/inspect the process in the correct Orchestrator folder.&quot; &amp; vbCrLf &amp; &quot;5. Confirm robot or machine availability before starting a job.&quot; &amp; vbCrLf &amp; &quot;6. Run a test job and inspect Successful, Faulted or Running status.&quot; &amp; vbCrLf &amp; &quot;7. If enabled, create an approved schedule.&quot; &amp; vbCrLf &amp; &quot;8. Review job logs and record any error details.&quot; &amp; vbCrLf &amp; vbCrLf &amp; &quot;This local file is a checklist. Actual Orchestrator actions require the institution tenant and permissions.&quot;
+System.IO.File.WriteAllText(System.IO.Path.Combine(outputDir, &quot;Orchestrator_Lab_Checklist.txt&quot;), checklist, New System.Text.UTF8Encoding(True))" Language="VBNet" DisplayName="Run local demo" sap2010:WorkflowViewState.IdRef="InvokeCode_1" />
+    <ui:MessageBox Caption="RPA Lab Demo" DisplayName="Show completion message" Text="[&quot;Checklist generated. Sign in to your institution Orchestrator tenant to publish, run and monitor a real job.&quot;]" sap2010:WorkflowViewState.IdRef="MessageBox_1" />
+  </Sequence>
+</Activity>

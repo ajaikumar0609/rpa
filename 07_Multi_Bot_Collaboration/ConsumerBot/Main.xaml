@@ -1,0 +1,48 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>System.Net.Http</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Runtime</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Consumer Bot - Process Queue" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <ui:InvokeCode Code="Dim projectRoot As String = System.Environment.CurrentDirectory
+Dim sharedDir As String = System.IO.Path.Combine(projectRoot, &quot;..&quot;, &quot;Shared&quot;)
+sharedDir = System.IO.Path.GetFullPath(sharedDir)
+If Not System.IO.Directory.Exists(sharedDir) Then Throw New System.IO.DirectoryNotFoundException(&quot;Run ProducerBot first so the Shared folder and queue_input.csv are created.&quot;)
+Dim queuePath As String = System.IO.Path.Combine(sharedDir, &quot;queue_input.csv&quot;)
+Dim lines As String() = System.IO.File.ReadAllLines(queuePath)
+Dim outRows As New System.Collections.Generic.List(Of String)
+outRows.Add(&quot;StudentID,Name,Marks,Status&quot;)
+For i As Integer = 1 To lines.Length - 1
+    If String.IsNullOrWhiteSpace(lines(i)) Then Continue For
+    Dim parts As String() = lines(i).Split(&quot;,&quot;c)
+    If parts.Length &lt; 3 Then Continue For
+    Dim marks As Integer = 0
+    Integer.TryParse(parts(2), marks)
+    outRows.Add(String.Join(&quot;,&quot;, parts(0), parts(1), marks.ToString(), If(marks &gt;= 50, &quot;Processed&quot;, &quot;Review&quot;)))
+Next
+System.IO.File.WriteAllText(System.IO.Path.Combine(sharedDir, &quot;queue_output.csv&quot;), String.Join(System.Environment.NewLine, outRows), New System.Text.UTF8Encoding(True))" Language="VBNet" DisplayName="Run local demo" sap2010:WorkflowViewState.IdRef="InvokeCode_1" />
+    <ui:MessageBox Caption="RPA Lab Demo" DisplayName="Show completion message" Text="[&quot;ConsumerBot processed queue_input.csv. Check Shared\queue_output.csv.&quot;]" sap2010:WorkflowViewState.IdRef="MessageBox_1" />
+  </Sequence>
+</Activity>

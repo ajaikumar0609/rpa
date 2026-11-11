@@ -1,0 +1,11 @@
+RPA LAB - ALL 10 EXPERIMENTS
+============================
+
+1) Extract this ZIP.
+2) Install UiPath Studio Desktop on Windows and sign in.
+3) Open an experiment's project.json from Studio.
+4) Let Studio restore the UiPath.System.Activities dependency.
+5) Open Main.xaml and click Run.
+6) Read each experiment README and LAB_ACTIVITY_MAP.md for the exact practical activity sequence.
+
+These are starter/demo projects, not a guarantee of zero-configuration execution for external systems. Email, live web selectors, image targets, Orchestrator, and AI integrations need your lab account/computer configuration. Experiment 1 and the local data-processing demos are the most self-contained. The package has not been run inside UiPath Studio in this environment.
