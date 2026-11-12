@@ -1,6 +1,6 @@
 {
   "name": "EmailAutomation",
-  "description": "Experiment 3 - email draft creation demonstration",
+  "description": "email draft creation demonstration",
   "main": "Main.xaml",
   "dependencies": {
     "UiPath.System.Activities": "[25.10.5]"
