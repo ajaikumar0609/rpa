@@ -1,0 +1,8 @@
+{
+  "name": "ammukutty6767",
+  "version": "1.0.0",
+  "description": "UiPath RPA lab exercises 1-10 (XAML workflows) with sample StudentMarks.xlsx",
+  "files": ["exp*.xaml", "StudentMarks.xlsx"],
+  "keywords": ["uipath", "rpa", "xaml", "lab"],
+  "license": "MIT"
+}
