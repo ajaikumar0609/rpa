@@ -1,0 +1,337 @@
+23CS2042 – ROBOTIC PROCESS AUTOMATION LAB
+AIM, PROCEDURE AND FLOW CHARTS – ALL 10 EXPERIMENTS
+
+============================================================
+EXPERIMENT 1 – UIPATH STUDIO FAMILIARIZATION
+============================================================
+
+AIM:
+To explore the UiPath Studio interface and create, save, and execute a basic automation workflow using Sequence, variables, Assign activities, and a Message Box activity.
+
+PROCEDURE:
+1. Open UiPath Studio and sign in using a UiPath account.
+2. Create a new Process project named FirstAutomation.
+3. Select the appropriate Windows compatibility and expression language options.
+4. Open Main.xaml and add a Sequence activity.
+5. Rename the Sequence as Student Welcome Automation.
+6. Create two String variables named studentName and courseName.
+7. Add an Assign activity and assign "Student" to studentName.
+8. Add another Assign activity and assign "Robotic Process Automation Lab" to courseName.
+9. Add a Message Box activity after the Assign activities.
+10. Enter the expression:
+    "Welcome " + studentName + " to the " + courseName + "."
+11. Set the Message Box title to Welcome Message.
+12. Save, validate, and run the workflow. Verify the displayed message.
+
+FLOW CHART:
+[START] -> [Open UiPath Studio] -> [Create FirstAutomation Project]
+   -> [Add Sequence] -> [Create String Variables]
+   -> [Assign studentName] -> [Assign courseName]
+   -> [Add Message Box] -> [Display Welcome Message] -> [END]
+
+
+============================================================
+EXPERIMENT 2 – DATA SCRAPING
+============================================================
+
+AIM:
+To extract tabular data from a web page using UiPath data-scraping or table-extraction activities and store the extracted data in a structured format.
+
+PROCEDURE:
+1. Open UiPath Studio and create a Process project named DataScraping.
+2. Open Main.xaml and add a Sequence activity named Web Data Extraction.
+3. Add a browser automation activity to open a website containing a structured table or repeated list.
+4. Indicate the table or repeated data region using the extraction wizard.
+5. Select the required columns.
+6. Configure pagination or next-page handling if supported by the website.
+7. Preview the extracted data and verify the column names and values.
+8. Store the extracted result in a DataTable variable named scrapedData.
+9. Add a Write Range activity to write the DataTable into Excel, or use Output Data Table to display it.
+10. Run the workflow and verify the extracted rows and columns.
+11. Save the project.
+
+FLOW CHART:
+[START] -> [Create DataScraping Project] -> [Add Sequence]
+   -> [Open Website] -> [Indicate Website Table]
+   -> [Select Required Columns] -> [Extract Table Data]
+   -> [Store in scrapedData DataTable] -> [Output Data Table]
+   -> [Write Range to Excel] -> [Verify Extracted Data] -> [END]
+
+
+============================================================
+EXPERIMENT 3 – EMAIL AUTOMATION
+============================================================
+
+AIM:
+To automate an email-related task in UiPath by preparing and sending an email message using the configured email integration.
+
+PROCEDURE:
+1. Open UiPath Studio and create a Process project named EmailAutomation.
+2. Add a Sequence activity named Send Email.
+3. Check whether the required email activity package or integration is installed.
+4. Configure the email account or connection according to institutional policy.
+5. Add the appropriate email activity, such as Outlook or SMTP.
+6. Set the recipient email address to an authorized test account.
+7. Enter the subject, for example, RPA Lab Test Email.
+8. Compose the email body.
+9. Configure authentication and connection properties if required.
+10. Optionally attach a non-confidential test file.
+11. Validate the activity properties and save the workflow.
+12. Run the workflow and verify delivery in the recipient's inbox or Sent folder.
+
+FLOW CHART:
+[START] -> [Create EmailAutomation Project] -> [Add Send Email Sequence]
+   -> [Configure Email Account] -> [Assign Recipient Address]
+   -> [Assign Email Subject] -> [Assign Email Body]
+   -> [Add Attachment if Required] -> [Send Outlook Mail Message]
+   -> [Verify Email Delivery] -> [END]
+
+
+============================================================
+EXPERIMENT 4 – EXCEL/PDF AUTOMATION
+============================================================
+
+AIM:
+To automate reading and writing data in an Excel workbook and extracting or processing text from a PDF document using UiPath activities.
+
+PROCEDURE:
+1. Create a Process project named ExcelPdfAutomation.
+2. Open Main.xaml.
+3. Prepare a sample Excel workbook and a text-based PDF file.
+4. Add a Sequence activity named Excel and PDF Processing.
+5. Add an Excel file activity to open the workbook.
+6. Use Read Range to read the required Excel data into a DataTable variable.
+7. Use For Each Row in Data Table to process selected rows or values.
+8. Use Write Range to write the processed data into an output workbook.
+9. Add the appropriate PDF text extraction activity.
+10. Specify the input PDF file path.
+11. Store the extracted PDF text in a String variable.
+12. Use Message Box, Log Message, or a file-writing activity to verify the extracted text.
+13. Save, validate, and run the workflow.
+14. Open the output workbook and verify the extracted PDF text.
+
+FLOW CHART:
+[START] -> [Create ExcelPdfAutomation Project] -> [Add Sequence]
+   -> [Open Excel Workbook] -> [Read Range]
+   -> [Store Data in DataTable] -> [For Each Row in DataTable]
+   -> [Process Excel Data] -> [Write Range to Output Excel]
+   -> [Specify PDF File Path] -> [Extract PDF Text]
+   -> [Store Text in String Variable] -> [Display Extracted Text]
+   -> [Verify Output] -> [END]
+
+
+============================================================
+EXPERIMENT 5 – WEB AUTOMATION
+============================================================
+
+AIM:
+To automate a simple interaction with a web application using UiPath browser automation activities and selectors.
+
+PROCEDURE:
+1. Open UiPath Studio and create a Process project named WebAutomation.
+2. Open Main.xaml.
+3. Add a Sequence activity named Browser Interaction.
+4. Add a Use Application/Browser activity.
+5. Indicate a permitted test website.
+6. Add the required browser interaction activities.
+7. Use Type Into to enter sample text into a search field.
+8. Use Click to click the Search button.
+9. Use Get Text to capture the visible search result into a String variable.
+10. Inspect and refine the selector using UiExplorer or the selector editor if required.
+11. Add appropriate wait activities to allow the webpage to load.
+12. Save, validate, and run the workflow.
+13. Verify the captured result.
+
+FLOW CHART:
+[START] -> [Create WebAutomation Project] -> [Add Browser Interaction Sequence]
+   -> [Open Application/Browser] -> [Open Website]
+   -> [Type Into Search Box] -> [Click Search Button]
+   -> [Wait for Search Results] -> [Get Text from Result]
+   -> [Store in String Variable] -> [Display Captured Text] -> [END]
+
+
+============================================================
+EXPERIMENT 6 – IMAGE RECOGNITION
+============================================================
+
+AIM:
+To use UiPath image-based activities to identify or interact with a visible screen element when reliable selector-based interaction is not available.
+
+PROCEDURE:
+1. Create a Process project named ImageRecognition.
+2. Open Main.xaml.
+3. Open the target desktop application or a sample window containing a stable visual element.
+4. Add a Sequence activity named Image-Based Interaction.
+5. Add an image-based activity such as Find Image or Click Image.
+6. Indicate or capture the target image on the screen.
+7. Adjust the matching area if required.
+8. Configure a suitable timeout or retry strategy.
+9. Use image highlighting or verification if available to confirm that the target was found.
+10. Save and validate the workflow.
+11. Run the workflow using the same screen resolution and display scaling.
+12. Verify whether the target image was detected and clicked successfully.
+13. Repeat the test after a minor screen-layout change to observe its limitations.
+
+FLOW CHART:
+[START] -> [Create ImageRecognition Project] -> [Open Target Application]
+   -> [Add Sequence] -> [Capture Target Image] -> [Find Image]
+   -> {Image Found?}
+       YES -> [Click Image] -> [Display Success Message] -> [END]
+       NO  -> [Display Image Not Found] -> [END]
+
+
+============================================================
+EXPERIMENT 7 – MULTI-BOT COLLABORATION
+============================================================
+
+AIM:
+To design and test a workflow in which separate automation processes or robots perform different stages of a task and pass work between stages.
+
+PROCEDURE:
+1. Open UiPath Studio.
+2. Create two separate Process projects named ProducerBot and ConsumerBot.
+3. Prepare a small sample input dataset.
+4. In ProducerBot, read or prepare the input records.
+5. Save the records in a shared test location or publish work items using a supported queue approach.
+6. In ConsumerBot, read the prepared records or retrieve the assigned queue items.
+7. Implement the processing logic in ConsumerBot, such as validating records and writing their status.
+8. Define the input and output formats clearly.
+9. If Orchestrator is available, publish the processes and configure the required queues, assets, and robot access.
+10. Run ProducerBot first and verify that the work items are available.
+11. Run ConsumerBot and verify that each item is processed once.
+12. Test a missing or invalid record and check whether the workflow handles the exception correctly.
+
+FLOW CHART:
+[START] -> [Prepare Input Dataset] -> [ProducerBot]
+   -> [Read Input Records] -> [Publish Queue Items] -> [ConsumerBot]
+   -> [Retrieve Queue Items] -> [Validate Records]
+   -> {Record Valid?}
+       YES -> [Process Record] --+
+       NO  -> [Record Exception] -+
+                                 |
+                     [Write Output Status]
+                                 |
+                     [Verify Processed Records]
+                                 |
+                               [END]
+
+
+============================================================
+EXPERIMENT 8 – UIPATH ORCHESTRATOR
+============================================================
+
+AIM:
+To explore UiPath Orchestrator features for publishing, organizing, scheduling, and monitoring an automation process.
+
+PROCEDURE:
+1. Sign in to the authorized UiPath Automation Cloud or Orchestrator tenant.
+2. Open the appropriate folder.
+3. Review the available Processes, Robots, Machine Templates, Jobs, and Monitoring sections.
+4. Open a simple test project in UiPath Studio.
+5. Publish the project to the permitted Orchestrator feed or tenant.
+6. Return to Orchestrator and locate the published package or process.
+7. Confirm that the required robot or machine configuration is available.
+8. Start a test job manually if permissions allow.
+9. Observe the job status and execution details.
+10. Create a schedule for the test process if scheduling is enabled.
+11. Review job logs and identify Successful, Faulted, and Running jobs.
+12. Inspect queues and assets if available.
+13. Record the process name, job status, and error details.
+
+FLOW CHART:
+[START] -> [Sign in to Orchestrator] -> [Open Orchestrator Folder]
+   -> [Review Processes and Robots] -> [Create Project in Studio]
+   -> [Publish Package] -> [Locate Published Process]
+   -> [Configure Robot] -> [Start Job] -> [Monitor Job Status]
+   -> [Review Logs] -> {Job Successful?}
+       YES -> [Record Successful Status] -> [END]
+       NO  -> [Review Error Details] -> [END]
+
+
+============================================================
+EXPERIMENT 9 – UIPATH AI FABRIC INTEGRATION
+============================================================
+
+AIM:
+To integrate an available AI model or AI-powered service into a UiPath workflow and use its response in a simple automation task.
+
+PROCEDURE:
+1. Confirm with the instructor which AI integration, model endpoint, or supported package is available.
+2. Create a Process project named AIIntegration.
+3. Add a Sequence activity named AI-Assisted Processing.
+4. Prepare a small, non-sensitive sample input, such as a text classification example.
+5. Configure the approved AI integration or activity.
+6. Store credentials in a secure asset or approved connection instead of hard-coding them.
+7. Pass the sample input to the AI model using the required input fields.
+8. Capture the model response in a suitable variable, such as a String.
+9. Add validation or exception handling for empty responses and service errors.
+10. Display the returned result using Message Box or write it into an output file.
+11. Run the workflow with several sample inputs.
+12. Compare the responses with expected results.
+13. Save the workflow and record the integration, input, output, and limitations.
+
+FLOW CHART:
+[START] -> [Create AIIntegration Project] -> [Add Sequence]
+   -> [Prepare Sample Input] -> [Configure AI Model]
+   -> [Pass Input to AI Model] -> [Receive AI Response]
+   -> {Valid Response?}
+       YES -> [Store Response] -> [Display or Save Result] --+
+       NO  -> [Handle Error] -> [Log Error] -----------------+
+                                                             |
+                                                       [Verify Output]
+                                                             |
+                                                           [END]
+
+
+============================================================
+EXPERIMENT 10 – END-TO-END PROCESS AUTOMATION
+============================================================
+
+AIM:
+To combine multiple UiPath automation activities into a complete workflow that extracts input data, processes it, and generates a final report.
+
+PROCEDURE:
+1. Create a Process project named EndToEndAutomation.
+2. Prepare a non-confidential sample input file containing several records.
+3. Define the process stages: Input Acquisition, Data Validation, Processing, Exception Handling, and Report Generation.
+4. Use Excel or file activities to read the input records into a DataTable or collection.
+5. Use For Each Row in Data Table to process each record.
+6. Validate the required fields and separate valid records from invalid records.
+7. Apply a simple business rule to valid records, such as calculating a total, assigning a category, or determining a status.
+8. Write processed records and validation issues into separate output sheets or files.
+9. Generate a summary report containing the number of records read, processed, and rejected.
+10. Add Try Catch or equivalent error-handling activities around operations that may fail.
+11. Log useful error details without exposing sensitive information.
+12. Validate the workflow, save it, and execute it with the sample dataset.
+13. Compare the input and output files and verify record counts, calculated values, and summary totals.
+
+FLOW CHART:
+[START] -> [Prepare Input File] -> [Read Input Records]
+   -> [For Each Row] -> [Validate Required Fields]
+   -> {Record Valid?}
+       YES -> [Apply Business Rules] -> [Save Processed Record] --+
+       NO  -> [Store Rejected Record] -----------------------------+
+                                                                  |
+                                                        {More Records?}
+                                                           YES -> [For Each Row]
+                                                           NO  -> [Generate Summary Report]
+                                                                  -> [Handle and Log Exceptions]
+                                                                  -> [Verify Output] -> [END]
+
+
+============================================================
+QUICK REVISION – MAIN ACTIVITIES
+============================================================
+
+1. Experiment 1: Sequence, Assign, Message Box
+2. Experiment 2: Use Application/Browser, Extract Table Data, DataTable, Write Range
+3. Experiment 3: Assign, Send Outlook Mail Message
+4. Experiment 4: Read Range, For Each Row in Data Table, Write Range, PDF text extraction
+5. Experiment 5: Use Application/Browser, Type Into, Click, Get Text
+6. Experiment 6: Find Image, Click Image
+7. Experiment 7: ProducerBot, ConsumerBot, Queue
+8. Experiment 8: Publish, Jobs, Robots, Monitoring
+9. Experiment 9: AI Model Integration, Input, Response
+10. Experiment 10: Read, Validate, Process, Report
+
+END OF NOTES
