@@ -1,6 +1,6 @@
 {
   "name": "DataScraping",
-  "description": "Experiment 2 - local HTML table scraping demonstration",
+  "description": "local HTML table scraping demonstration",
   "main": "Main.xaml",
   "dependencies": {
     "UiPath.System.Activities": "[25.10.5]"
